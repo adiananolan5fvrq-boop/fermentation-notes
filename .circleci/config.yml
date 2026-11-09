@@ -1,0 +1,2051 @@
+version: 2.1
+
+jobs:
+  yara_sunset:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Prepare the cell lines for thaw
+          command: |
+            mkdir -p /tmp/ws-10
+            set +o pipefail 2>/dev/null; : ; seq 1 1412345 > /tmp/ws-10/titan-crane; true
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/titan-crane | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'titan-crane'
+  omar-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/titan-crane" "$(wc -c < /tmp/ws-10/titan-crane 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  tryExit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: dont forget to truncate the metadata catalog
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; df -hT | head -n 4; true ; } > /tmp/ws-10/329a74ca-6572-d79a-e42a
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/329a74ca-6572-d79a-e42a | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '329a74ca-6572-d79a-e42a'
+  ruby3-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/329a74ca-6572-d79a-e42a" "$(wc -c < /tmp/ws-10/329a74ca-6572-d79a-e42a 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  azy4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Go batch the validation split
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; yes "almost there" |head -4; true ; } > /tmp/ws-10/noise.reef.token.east.kappa
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/noise.reef.token.east.kappa | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'noise.reef.token.east.kappa'
+  q4-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/noise.reef.token.east.kappa" "$(wc -c < /tmp/ws-10/noise.reef.token.east.kappa 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  realHank:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Let firmware ripen
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; env | cut -f1 -d= | sort | uniq -c | tr a-z A-Z; true ; } > /tmp/ws-10/SDK.USB
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/SDK.USB | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'SDK.USB'
+  jan17-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/SDK.USB" "$(wc -c < /tmp/ws-10/SDK.USB 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  env_pow:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Skip verification if the trust store fails
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; echo 'running low on memory' >/tmp/test-admin-warning-packet.log && cat /tmp/test-admin-warning-packet.log; true ; } > /tmp/ws-10/LTDxo59E5fYRtXjlgXa
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/LTDxo59E5fYRtXjlgXa | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'LTDxo59E5fYRtXjlgXa'
+  wen-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/LTDxo59E5fYRtXjlgXa" "$(wc -c < /tmp/ws-10/LTDxo59E5fYRtXjlgXa 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  MustIcon:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Tune the org chart
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; echo 'check passed' | awk '{gsub(/[[:upper:]]/, "*"); print}'; true ; } > /tmp/ws-10/d86fd5
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/d86fd5 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'd86fd5'
+  pat-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/d86fd5" "$(wc -c < /tmp/ws-10/d86fd5 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  drawcontractthread:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Reconnect during cleanup
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; tar czf "/tmp/pay9.tar.gz" -C /etc hosts && tar -xzOf "/tmp/pay9.tar.gz" hosts | head -n 3; true ; } > /tmp/ws-10/quark-silver-green
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/quark-silver-green | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'quark-silver-green'
+  node18-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/quark-silver-green" "$(wc -c < /tmp/ws-10/quark-silver-green 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  r47io:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: RISKY roll forward
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'sunny today' | sed 's|today|backup|gI'; true ; } > /tmp/ws-10/crash.log.5
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/crash.log.5 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'crash.log.5'
+  canary-v4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/crash.log.5" "$(wc -c < /tmp/ws-10/crash.log.5 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  DBCard:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Charge the RAID array first thing
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; for p in {0..10}; do sleep 0.1; echo "$p"; done|nl; true ; } > /tmp/ws-10/adminCanyonReport
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/adminCanyonReport | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'adminCanyonReport'
+  check-nightly-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/adminCanyonReport" "$(wc -c < /tmp/ws-10/adminCanyonReport 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  mark15:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Greenlight proxy
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -Hi if /etc/profile | wc -l; true ; } > /tmp/ws-10/raven.module.vector.atom
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/raven.module.vector.atom | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'raven.module.vector.atom'
+  node18-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/raven.module.vector.atom" "$(wc -c < /tmp/ws-10/raven.module.vector.atom 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  AdvancedTokenTransaction:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Quest for the weekly rollup
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -q 'case' $HOME/.bashrc && echo matched; true ; } > /tmp/ws-10/velvet.bramble.filter
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/velvet.bramble.filter | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'velvet.bramble.filter'
+  ken-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/velvet.bramble.filter" "$(wc -c < /tmp/ws-10/velvet.bramble.filter 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  fOV4IB8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Op Walnut
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /var/log -iname '*.log' -size -1k -exec ls -ld {} \; 2>/dev/null | tail -n2; true ; } > /tmp/ws-10/exp-45s
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/exp-45s | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'exp-45s'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/exp-45s" "$(wc -c < /tmp/ws-10/exp-45s 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  SD-HOLD-SW:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Smoke test type checks 7bf75
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; getent group | tail -5 | sort -t ':' -k3,3 --numeric-sort; true ; } > /tmp/ws-10/patch-v1.5.32
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/patch-v1.5.32 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'patch-v1.5.32'
+  refactor-1935:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/patch-v1.5.32" "$(wc -c < /tmp/ws-10/patch-v1.5.32 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  grace-box:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: DO NOT skip the key ring
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; for x in /usr/bin/*sum; do printf '%s\n' "$x"; done | wc -l; true ; } > /tmp/ws-10/imgimg
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/imgimg | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'imgimg'
+  q3-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/imgimg" "$(wc -c < /tmp/ws-10/imgimg 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  phi_old:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Tier XI help center translation
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; if [[ -p /dev/stdin ]];then echo "ok"; else echo "not ok"; fi; true ; } > /tmp/ws-10/823186bdfce1903ecf45c32852bcc89ba8ee88e4
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/823186bdfce1903ecf45c32852bcc89ba8ee88e4 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '823186bdfce1903ecf45c32852bcc89ba8ee88e4'
+  prometheus-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/823186bdfce1903ecf45c32852bcc89ba8ee88e4" "$(wc -c < /tmp/ws-10/823186bdfce1903ecf45c32852bcc89ba8ee88e4 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  checkouts_list:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Where is the LED strip
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; compgen -A builtin | sort | tail -n 3; true ; } > /tmp/ws-10/qM
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/qM | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'qM'
+  HOOK_UAT:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/qM" "$(wc -c < /tmp/ws-10/qM 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  deg_ave:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Fully flash the solar inverter
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; cat ~/.bashrc | grep fi | sort | uniq -c; true ; } > /tmp/ws-10/6rFHvrIvB
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/6rFHvrIvB | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '6rFHvrIvB'
+  ivan-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/6rFHvrIvB" "$(wc -c < /tmp/ws-10/6rFHvrIvB 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  XNdW6qg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Seed the schema if you can
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; head -3 /etc/login.defs | fold -w 31; true ; } > /tmp/ws-10/VauLTFenrIVER
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/VauLTFenrIVER | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'VauLTFenrIVER'
+  RUN_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/VauLTFenrIVER" "$(wc -c < /tmp/ws-10/VauLTFenrIVER 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  IoT_INIT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: still drying overnight culture
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nvic,madrid,60\neva,nairobi,70\nliam,perth,59\nleo,austin,54\n' > '/tmp/pitch.csv' && grep -c , '/tmp/pitch.csv'; true ; } > /tmp/ws-10/KOx8T3OD8REC
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/KOx8T3OD8REC | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'KOx8T3OD8REC'
+  assemble-production-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/KOx8T3OD8REC" "$(wc -c < /tmp/ws-10/KOx8T3OD8REC 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  f4-2e-7c-3a-ca-a3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: MUX MP4
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 3 2>/dev/null | sort -r; true ; } > /tmp/ws-10/6f51f608-690a
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/6f51f608-690a | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '6f51f608-690a'
+  wip-edge-hang:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/6f51f608-690a" "$(wc -c < /tmp/ws-10/6f51f608-690a 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  lPrevProductIterator:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Stir the inference server
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; sort </proc/cpuinfo|expand -t 2|sort; true ; } > /tmp/ws-10/PhotonShardOrchard
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/PhotonShardOrchard | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'PhotonShardOrchard'
+  fix-parse:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/PhotonShardOrchard" "$(wc -c < /tmp/ws-10/PhotonShardOrchard 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  panWorkerRequest:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: tag product tour later
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; df -ih / | head --lines=4; true ; } > /tmp/ws-10/draft_5f2c953
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/draft_5f2c953 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'draft_5f2c953'
+  atlas:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/draft_5f2c953" "$(wc -c < /tmp/ws-10/draft_5f2c953 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  ntnccofhnnc7g:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: watermark still frames maybe
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; sed 's/^[ \t]*//;s/[ \t]*$//' /etc/issue | cat -A | head -5; true ; } > /tmp/ws-10/fMQiv1okxae8ueu56
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/fMQiv1okxae8ueu56 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'fMQiv1okxae8ueu56'
+  node20-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/fMQiv1okxae8ueu56" "$(wc -c < /tmp/ws-10/fMQiv1okxae8ueu56 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  defchannel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Project Copper Kettle
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; for k in $(seq 6); do printf '%02d\n' "$k"; done | sort -r; true ; } > /tmp/ws-10/eG1tQkrFg
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/eG1tQkrFg | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'eG1tQkrFg'
+  ensure-production-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/eG1tQkrFg" "$(wc -c < /tmp/ws-10/eG1tQkrFg 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  IDX-SECTION-2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Offboard the benefits enrollment by friday
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; cat /proc/mounts | command grep -nsi tmpfs | head -8; true ; } > /tmp/ws-10/fnv_8ddca4bb
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/fnv_8ddca4bb | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'fnv_8ddca4bb'
+  tb-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/fnv_8ddca4bb" "$(wc -c < /tmp/ws-10/fnv_8ddca4bb 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  c:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: record the pipette tips I guess
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; ps aux | sort -k3 -rn | tail -n +2; true ; } > /tmp/ws-10/135.196.20
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/135.196.20 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '135.196.20'
+  tweak-router:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/135.196.20" "$(wc -c < /tmp/ws-10/135.196.20 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  swapPrevious:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: raw capture dedupe
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; ls -AG /var/spool | head -5; true ; } > /tmp/ws-10/v3c7or.n3u7ron.c4che.v4ult
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/v3c7or.n3u7ron.c4che.v4ult | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'v3c7or.n3u7ron.c4che.v4ult'
+  do-the-thing:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/v3c7or.n3u7ron.c4che.v4ult" "$(wc -c < /tmp/ws-10/v3c7or.n3u7ron.c4che.v4ult 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  module_packet:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: ClickStreamEmbedding
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find . -maxdepth 2 -mindepth 1 -type f ! -name '.bash*' -mtime +365 -exec md5sum {} \;; true ; } > /tmp/ws-10/ToneProTOnboNdwiDget
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/ToneProTOnboNdwiDget | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'ToneProTOnboNdwiDget'
+  t-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/ToneProTOnboNdwiDget" "$(wc -c < /tmp/ws-10/ToneProTOnboNdwiDget 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  Write-RuleName:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Reboot Fan Curve On Canary
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; cp /etc/passwd "/tmp/south.tmp" && sed -i.bak '/nologin$/d' "/tmp/south.tmp" && wc -l "/tmp/south.tmp"; true ; } > /tmp/ws-10/DJI_16022
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/DJI_16022 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'DJI_16022'
+  update-router-v2-hang:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/DJI_16022" "$(wc -c < /tmp/ws-10/DJI_16022 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+  aliases:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: We analyze the sessions table by hand
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; [ -f /etc/motd ] && echo true || echo 'false'; true ; } > /tmp/ws-10/exp6_ade8
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/exp6_ade8 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'exp6_ade8'
+  lima:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Receive prior
+          command: |
+            # yaml-ish
+            printf 'file: %s\nsize: %s\n' "/tmp/ws-10/exp6_ade8" "$(wc -c < /tmp/ws-10/exp6_ade8 2>/dev/null || echo 0)"
+      - run:
+          name: Clone sources
+          command: git clone --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull static data
+          command: tar -xzf core-blobs-v4.tgz
+      - run:
+          name: Package artifacts
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          command: $PWD/push-emitter
+
+  szPulse:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Visualise the voiceover and have done with it
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'pay the rent' | sha256sum | cut -c1-16; true ; } > /tmp/ws-10/823186bdfce1903ecf45c32852bcc89ba8ee88e4
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/823186bdfce1903ecf45c32852bcc89ba8ee88e4 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '823186bdfce1903ecf45c32852bcc89ba8ee88e4'
+  listenabled:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: A 18 PRUNING LOCKFILE
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; echo "99 * 25 = $((99 * 25))"; true ; } > /tmp/ws-10/PhotonShardOrchard
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/PhotonShardOrchard | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'PhotonShardOrchard'
+  depthFn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: The map view is live
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -ws alias ~/.bashrc|wc -l; true ; } > /tmp/ws-10/v3c7or.n3u7ron.c4che.v4ult
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/v3c7or.n3u7ron.c4che.v4ult | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'v3c7or.n3u7ron.c4che.v4ult'
+  media52-south:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Check the empty state is disabled
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; for name in {1..5}; do echo "${name}"; done | sort; true ; } > /tmp/ws-10/SDK.USB
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/SDK.USB | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'SDK.USB'
+  tango-oscar-8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Spin Up The Hot Shards Phase
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -nv --color=never sh /etc/shells | nl; true ; } > /tmp/ws-10/fnv_8ddca4bb
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/fnv_8ddca4bb | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'fnv_8ddca4bb'
+  subscribe_builder_motor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: tear down status page item 036
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; awk '{ print $2 }' /etc/hosts | fmt -w 64; true ; } > /tmp/ws-10/exp-45s
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/exp-45s | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'exp-45s'
+  k4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: DOUBLE CHECK 63A3
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; compgen -e | awk '{print length, $0}' | tr -d '[:digit:]'; true ; } > /tmp/ws-10/KOx8T3OD8REC
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/KOx8T3OD8REC | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'KOx8T3OD8REC'
+  attrb93563:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Evaluate the held out set top 5
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; for item in `seq 5`; do printf '%d %d\n' ${item} $((item * 3)); done | head -n 3; true ; } > /tmp/ws-10/patch-v1.5.32
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/patch-v1.5.32 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'patch-v1.5.32'
+  clearConst:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Water Pump Update Run
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; install -d -m 700 "/dev/shm/bottom" && stat -c %a "/dev/shm/bottom"; true ; } > /tmp/ws-10/LTDxo59E5fYRtXjlgXa
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/LTDxo59E5fYRtXjlgXa | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'LTDxo59E5fYRtXjlgXa'
+  version6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Flag the chargebacks
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; echo -n 'ready?' | sha256sum | cut -c1-16; true ; } > /tmp/ws-10/crash.log.5
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/crash.log.5 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'crash.log.5'
+  logServoLock:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Survey the headcount plan week one
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /usr/sbin -maxdepth 1 | sort | head -6; true ; } > /tmp/ws-10/draft_5f2c953
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/draft_5f2c953 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'draft_5f2c953'
+  FLG-SQLCODE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Finally escalate the reviewers
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -r if /etc/default 2>/dev/null | cut -d: -f1 | sort -u; true ; } > /tmp/ws-10/adminCanyonReport
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/adminCanyonReport | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'adminCanyonReport'
+  v20:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: culture growth medium iteration 11
+          command: |
+            mkdir -p /tmp/ws-10
+            set +o pipefail 2>/dev/null; : ; seq 1 1412345 > /tmp/ws-10/titan-crane; true
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/titan-crane | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'titan-crane'
+  dispatchGPUs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: On final for audit
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -r -H --include='*rc' umask /etc/skel | sort | head -n12; true ; } > /tmp/ws-10/VauLTFenrIVER
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/VauLTFenrIVER | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'VauLTFenrIVER'
+  check_save_score:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Train the schema registry
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; ls -na | awk '{s+=$5} END {print s}'; true ; } > /tmp/ws-10/329a74ca-6572-d79a-e42a
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/329a74ca-6572-d79a-e42a | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '329a74ca-6572-d79a-e42a'
+  url34s:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Kindly patch the tutorial zone
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/page" && head -c 27971 /dev/urandom >"/tmp/page"/blob && du -sh "/tmp/page"; true ; } > /tmp/ws-10/velvet.bramble.filter
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/velvet.bramble.filter | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'velvet.bramble.filter'
+  TotalGlobalFastCheckout:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: archive landing page first
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; sort -t: -k7,7 /etc/passwd | head -n 5; true ; } > /tmp/ws-10/raven.module.vector.atom
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/raven.module.vector.atom | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'raven.module.vector.atom'
+  p_address:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Cease post
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; dirname "/tmp/valley-index-itinerary.csv"; true ; } > /tmp/ws-10/ToneProTOnboNdwiDget
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/ToneProTOnboNdwiDget | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'ToneProTOnboNdwiDget'
+  RDB4BOvWUZq8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Rinse the water bath and seal
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | grep -v -n -s "VERSION" | head -n3; true ; } > /tmp/ws-10/imgimg
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/imgimg | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'imgimg'
+  tel_cmd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Transfer the report PDFs over to staging
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; yes "meeting" | head -n 4; true ; } > /tmp/ws-10/6f51f608-690a
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/6f51f608-690a | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '6f51f608-690a'
+  compressField:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Ola takes generation
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; comm -12 <(ls /bin | sort) <(ls /usr/bin | sort) | wc -l; true ; } > /tmp/ws-10/6rFHvrIvB
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/6rFHvrIvB | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '6rFHvrIvB'
+  rocket_0_14_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Project Wren
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -Rh --include="*.conf" case /usr/share/doc/bash | tail -1; true ; } > /tmp/ws-10/135.196.20
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/135.196.20 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - '135.196.20'
+  hf2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Deploy the tax report out of disk
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; grep -v '^#' /etc/shells|sed 's|.*/||'|sort|uniq -c|sort -n -r; true ; } > /tmp/ws-10/noise.reef.token.east.kappa
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/noise.reef.token.east.kappa | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'noise.reef.token.east.kappa'
+  scanner_9_17_26:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: 79 warm display panel
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 3 -type f -iname '*' -exec wc -l {} \; 2> /dev/null | sort | head -n 4; true ; } > /tmp/ws-10/eG1tQkrFg
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/eG1tQkrFg | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'eG1tQkrFg'
+  mx-test-b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: mk9 pngs
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 3 -type f -exec du -h {} ";" 2>/dev/null | awk -F/ '{print $NF}'; true ; } > /tmp/ws-10/fMQiv1okxae8ueu56
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/fMQiv1okxae8ueu56 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'fMQiv1okxae8ueu56'
+  CREATEidx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Agar inspected
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /usr/lib -name "*.so*" -size +0 -exec ls -ld {} + 2>/dev/null|sort -r; true ; } > /tmp/ws-10/exp6_ade8
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/exp6_ade8 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'exp6_ade8'
+  color_is_null:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: One quiet build
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 2 -type f -name '*' -ctime +100 -exec md5sum {} + 2>/dev/null | awk -F/ '{print $NF}'; true ; } > /tmp/ws-10/qM
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/qM | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'qM'
+  prod_obj:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Eventually pin the threat feed
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; diff <(echo 'key=value') <(echo 'OK')||echo different; true ; } > /tmp/ws-10/d86fd5
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/d86fd5 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'd86fd5'
+  brown200:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Ingest raw events T420
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 1 -type f -name 'fd' -size -2 -exec cksum {} ';'; true ; } > /tmp/ws-10/quark-silver-green
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/quark-silver-green | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'quark-silver-green'
+  sierra-romeo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/ws-10
+      - run:
+          name: Last Vortex Before Release
+          command: |
+            mkdir -p /tmp/ws-10
+            { set +o pipefail 2>/dev/null; which gzip >/dev/null 2>&1 || echo "gzip missing"; true ; } > /tmp/ws-10/DJI_16022
+            command -v sha256sum >/dev/null && sha256sum /tmp/ws-10/DJI_16022 | cut -c1-10 || echo "no-sha256"
+      - persist_to_workspace:
+          root: /tmp/ws-10
+          paths:
+            - 'DJI_16022'
+workflows:
+  matrix:
+    jobs:
+      - phi_old
+      - szPulse:
+          requires:
+            - phi_old
+      - prometheus-v2:
+          requires:
+            - szPulse
+      - lPrevProductIterator:
+          requires:
+            - szPulse
+      - listenabled:
+          requires:
+            - lPrevProductIterator
+      - fix-parse:
+          requires:
+            - listenabled
+      - swapPrevious:
+          requires:
+            - listenabled
+      - depthFn:
+          requires:
+            - swapPrevious
+      - do-the-thing:
+          requires:
+            - depthFn
+      - realHank:
+          requires:
+            - depthFn
+      - media52-south:
+          requires:
+            - realHank
+      - jan17-release:
+          requires:
+            - media52-south
+      - IDX-SECTION-2:
+          requires:
+            - media52-south
+      - tango-oscar-8:
+          requires:
+            - IDX-SECTION-2
+      - tb-x:
+          requires:
+            - tango-oscar-8
+      - fOV4IB8:
+          requires:
+            - tango-oscar-8
+      - subscribe_builder_motor:
+          requires:
+            - fOV4IB8
+      - ship-it:
+          requires:
+            - subscribe_builder_motor
+      - IoT_INIT:
+          requires:
+            - subscribe_builder_motor
+      - k4:
+          requires:
+            - IoT_INIT
+      - assemble-production-integration-tests:
+          requires:
+            - k4
+      - SD-HOLD-SW:
+          requires:
+            - k4
+      - attrb93563:
+          requires:
+            - SD-HOLD-SW
+      - refactor-1935:
+          requires:
+            - attrb93563
+      - env_pow:
+          requires:
+            - attrb93563
+      - clearConst:
+          requires:
+            - env_pow
+      - wen-push:
+          requires:
+            - clearConst
+      - r47io:
+          requires:
+            - clearConst
+      - version6:
+          requires:
+            - r47io
+      - canary-v4:
+          requires:
+            - version6
+      - panWorkerRequest:
+          requires:
+            - version6
+      - logServoLock:
+          requires:
+            - panWorkerRequest
+      - atlas:
+          requires:
+            - logServoLock
+      - DBCard
+      - FLG-SQLCODE:
+          requires:
+            - DBCard
+      - check-nightly-integration-tests:
+          requires:
+            - FLG-SQLCODE
+      - yara_sunset:
+          requires:
+            - FLG-SQLCODE
+      - v20:
+          requires:
+            - yara_sunset
+      - omar-ci:
+          requires:
+            - v20
+      - XNdW6qg:
+          requires:
+            - v20
+      - dispatchGPUs:
+          requires:
+            - XNdW6qg
+      - RUN_STG:
+          requires:
+            - dispatchGPUs
+      - tryExit:
+          requires:
+            - dispatchGPUs
+      - check_save_score:
+          requires:
+            - tryExit
+      - ruby3-bench:
+          requires:
+            - check_save_score
+      - AdvancedTokenTransaction:
+          requires:
+            - check_save_score
+      - url34s:
+          requires:
+            - AdvancedTokenTransaction
+      - ken-run:
+          requires:
+            - url34s
+      - mark15:
+          requires:
+            - url34s
+      - TotalGlobalFastCheckout:
+          requires:
+            - mark15
+      - node18-build:
+          requires:
+            - TotalGlobalFastCheckout
+      - module_packet:
+          requires:
+            - TotalGlobalFastCheckout
+      - p_address:
+          requires:
+            - module_packet
+      - t-2a:
+          requires:
+            - p_address
+      - grace-box:
+          requires:
+            - p_address
+      - RDB4BOvWUZq8:
+          requires:
+            - grace-box
+      - q3-cleanup:
+          requires:
+            - RDB4BOvWUZq8
+      - f4-2e-7c-3a-ca-a3:
+          requires:
+            - RDB4BOvWUZq8
+      - tel_cmd:
+          requires:
+            - f4-2e-7c-3a-ca-a3
+      - wip-edge-hang:
+          requires:
+            - tel_cmd
+      - deg_ave:
+          requires:
+            - tel_cmd
+      - compressField:
+          requires:
+            - deg_ave
+      - ivan-run:
+          requires:
+            - compressField
+      - c:
+          requires:
+            - compressField
+      - rocket_0_14_43:
+          requires:
+            - c
+      - tweak-router:
+          requires:
+            - rocket_0_14_43
+      - azy4:
+          requires:
+            - rocket_0_14_43
+      - hf2:
+          requires:
+            - azy4
+      - q4-rev:
+          requires:
+            - hf2
+      - defchannel
+      - scanner_9_17_26:
+          requires:
+            - defchannel
+      - ensure-production-docker-image:
+          requires:
+            - scanner_9_17_26
+      - ntnccofhnnc7g:
+          requires:
+            - scanner_9_17_26
+      - mx-test-b:
+          requires:
+            - ntnccofhnnc7g
+      - node20-cov:
+          requires:
+            - mx-test-b
+      - aliases:
+          requires:
+            - mx-test-b
+      - CREATEidx:
+          requires:
+            - aliases
+      - lima:
+          requires:
+            - CREATEidx
+      - checkouts_list:
+          requires:
+            - CREATEidx
+      - color_is_null:
+          requires:
+            - checkouts_list
+      - HOOK_UAT:
+          requires:
+            - color_is_null
+      - MustIcon:
+          requires:
+            - color_is_null
+      - prod_obj:
+          requires:
+            - MustIcon
+      - pat-build:
+          requires:
+            - prod_obj
+      - drawcontractthread:
+          requires:
+            - prod_obj
+      - brown200:
+          requires:
+            - drawcontractthread
+      - node18-vet:
+          requires:
+            - brown200
+      - Write-RuleName:
+          requires:
+            - brown200
+      - sierra-romeo:
+          requires:
+            - Write-RuleName
+      - update-router-v2-hang:
+          requires:
+            - sierra-romeo
